@@ -72,11 +72,11 @@ with right:
 
 # ---------- DUMMY ANALYSIS (REPLACE WITH REAL API LATER) ----------
 def analyze_url_dummy(url: str) -> dict:
-    \"\"\"Demo analysis so the UI works even without a backend.
+    """Demo analysis so the UI works even without a backend.
 
     In the real version, this would call my Madison/n8n flow and return
     scores plus UX recommendations.
-    \"\"\"
+    """
     return {
         "url": url,
         # Core analysis
