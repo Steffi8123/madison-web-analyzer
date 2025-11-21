@@ -308,8 +308,7 @@ with st.container():
     st.markdown("**Recommendations**")
     for r in selected_item.get("recommendations", []):
         st.markdown(f"- {r}")
-
-
+        
 st.markdown("---")
 st.markdown(
     "Back to my portfolio: [steffimanhalli.com](https://steffimanhalli.com)"
