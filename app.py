@@ -271,7 +271,7 @@ if run_button:
 
         st.bar_chart(chart_df)
 
-      st.markdown("---")
+   
 st.markdown("## 🔍 Page deep-dive")
 
 selected_url = st.selectbox(
