@@ -272,42 +272,43 @@ if run_button:
         st.bar_chart(chart_df)
 
         st.markdown("---")
-        st.markdown("### 🔍 Page deep-dive")
+st.markdown("### 🔍 Page deep-dive")
 
-        selected_url = st.selectbox(
-            "Select a URL to view detailed insights:",
-            df["URL"].tolist()
-        )
+selected_url = st.selectbox(
+    "Select a URL to view detailed insights:",
+    df["URL"].tolist()
+)
 
-        selected_item = next(item for item in results if item["url"] == selected_url)
+selected_item = next(item for item in results if item["url"] == selected_url)
 
-        with st.container():
-            st.markdown(f"#### {selected_url}")
+with st.container():
+    st.markdown(f"#### {selected_url}")
 
-            colA, colB = st.columns(2)
+    colA, colB = st.columns(2)
 
-            with colA:
-                st.write("**Empathy score:**", selected_item["empathy_score"])
-                st.write("**Clarity score:**", selected_item["clarity_score"])
-                st.write("**WCAG status:**", selected_item["wcag_status"])
-                st.write("**Visual schema:**", selected_item["visual_schema"])
+    with colA:
+        st.write("**Empathy score:**", selected_item["empathy_score"])
+        st.write("**Clarity score:**", selected_item["clarity_score"])
+        st.write("**WCAG status:**", selected_item["wcag_status"])
+        st.write("**Visual schema:**", selected_item["visual_schema"])
 
-            with colB:
-                st.write("**Summary**")
-                st.write(selected_item["summary"])
+    with colB:
+        st.write("**Summary**")
+        st.write(selected_item["summary"])
 
-                st.write("**AI rewrite suggestion**")
-                st.write(selected_item["rewrite_suggestion"])
+        st.write("**AI rewrite suggestion**")
+        st.write(selected_item["rewrite_suggestion"])
 
-            st.markdown("#### 🩺 Healthcare-inspired UX checks")
-            st.write("**Low-literacy friendliness:**", selected_item["low_literacy_note"])
-            st.write("**Tone safety:**", selected_item["tone_safety_note"])
-            st.write("**Information hierarchy:**", selected_item["hierarchy_note"])
-            st.write("**Visual stress:**", selected_item["visual_stress_note"])
+    st.markdown("#### 🩺 Healthcare-inspired UX checks")
+    st.write("**Low-literacy friendliness:**", selected_item["low_literacy_note"])
+    st.write("**Tone safety:**", selected_item["tone_safety_note"])
+    st.write("**Information hierarchy:**", selected_item["hierarchy_note"])
+    st.write("**Visual stress:**", selected_item["visual_stress_note"])
 
-            st.markdown("**Recommendations**")
-            for r in selected_item.get("recommendations", []):
-                st.markdown(f"- {r}")
+    st.markdown("**Recommendations**")
+    for r in selected_item.get("recommendations", []):
+        st.markdown(f"- {r}")
+
 
 st.markdown("---")
 st.markdown(
