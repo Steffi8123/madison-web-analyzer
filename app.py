@@ -76,7 +76,7 @@ body, .stApp {
 
 /* Reduce padding around dataframe */
 .block-container {
-  padding-top: 2.6rem;
+  padding-top: 5rem;
 }
 </style>
 """, unsafe_allow_html=True)
