@@ -16,24 +16,26 @@ st.markdown("""
   --primary-amber: #F59E0B;
   --accent-blue:  #2563EB;
   --soft-bg: #F8FAFC;
+  --text-dark: #1f2937;
 }
 
 /* Background */
 .main {
-  background-color: var(--soft-bg);
+  background: var(--soft-bg);
 }
 
 /* Typography */
 body {
   font-family: "Georgia", "Times New Roman", serif;
+  color: var(--text-dark);
 }
 
-/* Button styling */
+/* Primary Button */
 .stButton>button {
   background-color: var(--accent-blue);
   color: white;
   border-radius: 999px;
-  padding: 0.5rem 1.6rem;
+  padding: 0.55rem 1.7rem;
   border: none;
   font-weight: 600;
 }
@@ -41,45 +43,53 @@ body {
   background-color: #1E48A8;
 }
 
-/* Metric card styling */
+/* Dashboard metric cards - strong yellow contrast */
 div[data-testid="metric-container"] {
   background: white;
-  padding: 1rem;
-  border-radius: 14px;
-  border-left: 6px solid var(--primary-yellow);
-  box-shadow: 0px 4px 14px rgba(0,0,0,0.04);
+  padding: 1.1rem;
+  border-radius: 16px;
+  border: 2px solid var(--primary-yellow);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
 }
 
-/* Dashboard headers */
-h2, h3 {
-  color: #1f2937;
-  border-bottom: 2px solid var(--primary-amber);
-  padding-bottom: 6px;
-}
-
-/* Info box */
-.stAlert {
-  background: #fff7ed;
-  border-left: 6px solid var(--primary-amber);
-}
-
-/* Focus section highlight */
+/* Section containers */
 .section-highlight {
   background: white;
-  border: 1px solid #e5e7eb;
-  border-left: 6px solid var(--primary-yellow);
-  padding: 1.2rem;
-  border-radius: 16px;
-  margin-bottom: 1rem;
+  border: 2px solid var(--primary-yellow);
+  border-left: 10px solid var(--primary-yellow);
+  padding: 1.3rem;
+  border-radius: 18px;
+  margin-bottom: 1.5rem;
 }
 
-/* Dataframe polish */
+/* Headings (NO yellow text) */
+h1, h2, h3 {
+  color: var(--text-dark);
+}
+
+/* Divider style */
+hr {
+  border: none;
+  height: 4px;
+  background: var(--primary-yellow);
+  border-radius: 999px;
+  margin: 2rem 0;
+}
+
+/* Info box with amber contrast */
+.stAlert {
+  background: #fff8ed;
+  border-left: 8px solid var(--primary-amber);
+}
+
+/* Dataframe contrast */
 div[data-testid="stDataFrame"] {
   background: white;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  border: 2px solid var(--primary-yellow);
 }
 </style>
+
 
 """, unsafe_allow_html=True)
 
