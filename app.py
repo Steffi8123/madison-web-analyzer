@@ -272,7 +272,7 @@ if run_button:
         st.bar_chart(chart_df)
 
       st.markdown("---")
-st.markdown("### 🔍 Page deep-dive")
+st.markdown("## 🔍 Page deep-dive")
 
 selected_url = st.selectbox(
     "Select a URL to view detailed insights:",
@@ -281,62 +281,99 @@ selected_url = st.selectbox(
 
 selected_item = next(item for item in results if item["url"] == selected_url)
 
-# URL header
-st.markdown(f"**Page selected:** {selected_url}")
+st.markdown("""
+<style>
+.card {
+    background: white;
+    padding: 1.2rem;
+    border-radius: 14px;
+    border: 1px solid #eee;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+    margin-bottom: 1rem;
+}
+.tag {
+    background: #F9D342;
+    padding: 0.2rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #1f2937;
+    display: inline-block;
+    margin-bottom: 0.4rem;
+}
+.small-metric {
+    font-size: 0.9rem;
+    color: #374151;
+}
+</style>
+""", unsafe_allow_html=True)
 
-# --- Top row: core scores as cards ---
-st.markdown(
-    f"""
-    <div class="detail-row">
-      <div class="detail-card">
-        <div class="detail-label">Empathy</div>
-        <div class="detail-value">{selected_item['empathy_score']}</div>
-        <div class="detail-subtext">How supportive and human the tone feels.</div>
-      </div>
-      <div class="detail-card">
-        <div class="detail-label">Clarity</div>
-        <div class="detail-value">{selected_item['clarity_score']}</div>
-        <div class="detail-subtext">How easy it is to understand key messages.</div>
-      </div>
-      <div class="detail-card">
-        <div class="detail-label">Accessibility (demo)</div>
-        <div class="detail-value">{selected_item['wcag_status']}</div>
-        <div class="detail-subtext">Basic WCAG-inspired readability & contrast notes.</div>
-      </div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+st.markdown(f"### 📄 {selected_url}")
 
-# --- Second row: summary & rewrite side by side ---
-colA, colB = st.columns(2)
+col1, col2, col3, col4 = st.columns(4)
 
-with colA:
-    st.markdown("#### Summary")
-    st.write(selected_item["summary"])
+col1.markdown(f"""
+<div class="card">
+<span class="tag">Empathy</span>
+<h3>{selected_item["empathy_score"]}</h3>
+<p class="small-metric">Tone support level</p>
+</div>
+""", unsafe_allow_html=True)
 
-with colB:
-    st.markdown("#### AI rewrite suggestion")
-    st.write(selected_item["rewrite_suggestion"])
+col2.markdown(f"""
+<div class="card">
+<span class="tag">Clarity</span>
+<h3>{selected_item["clarity_score"]}</h3>
+<p class="small-metric">Content understandability</p>
+</div>
+""", unsafe_allow_html=True)
 
-# --- Healthcare-inspired UX checks in a single card ---
-st.markdown(
-    """
-    <div class="detail-card detail-card-ux">
-      <div class="detail-label">Healthcare-inspired UX checks (non-clinical)</div>
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
+col3.markdown(f"""
+<div class="card">
+<span class="tag">WCAG</span>
+<h3>{selected_item["wcag_status"]}</h3>
+<p class="small-metric">Accessibility check</p>
+</div>
+""", unsafe_allow_html=True)
 
-st.write("**Low-literacy friendliness:**", selected_item["low_literacy_note"])
-st.write("**Tone safety:**", selected_item["tone_safety_note"])
-st.write("**Information hierarchy:**", selected_item["hierarchy_note"])
-st.write("**Visual stress:**", selected_item["visual_stress_note"])
+col4.markdown(f"""
+<div class="card">
+<span class="tag">Layout</span>
+<h3>{selected_item["visual_schema"]}</h3>
+<p class="small-metric">Visual structure</p>
+</div>
+""", unsafe_allow_html=True)
 
-st.markdown("**Recommendations**")
-for r in selected_item.get("recommendations", []):
+
+st.markdown("### 🧠 Summary & Rewrite")
+
+st.markdown(f"""
+<div class="card">
+<b>Summary</b><br>
+{selected_item["summary"]}<br><br>
+<b>AI Rewrite Suggestion</b><br>
+{selected_item["rewrite_suggestion"]}
+</div>
+""", unsafe_allow_html=True)
+
+
+st.markdown("### 🩺 Healthcare-informed UX Signals")
+
+st.markdown(f"""
+<div class="card">
+<b>Low literacy note:</b> {selected_item["low_literacy_note"]}<br><br>
+<b>Tone safety:</b> {selected_item["tone_safety_note"]}<br><br>
+<b>Hierarchy clarity:</b> {selected_item["hierarchy_note"]}<br><br>
+<b>Visual stress:</b> {selected_item["visual_stress_note"]}
+</div>
+""", unsafe_allow_html=True)
+
+
+st.markdown("### ✅ Actionable Recommendations")
+
+for r in selected_item["recommendations"]:
     st.markdown(f"- {r}")
+
 
         
 st.markdown("---")
