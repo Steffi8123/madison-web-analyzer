@@ -8,35 +8,27 @@ st.set_page_config(
     layout="wide",
 )
 
-# ---------- SIMPLE BRANDING ----------
+# ---------- GLOBAL STYLES ----------
 st.markdown("""
 <style>
 :root {
   --primary-yellow: #F9D342;
   --primary-amber: #F59E0B;
   --accent-blue:  #2563EB;
-  --soft-bg: #F8FAFC;
-  --text-dark: #1f2937;
-  
 }
 
-/* Background */
-.main {
-  background: var(--soft-bg);
-}
-
-/* Typography */
-body {
+/* Page background + base */
+body, .stApp {
   font-family: "Georgia", "Times New Roman", serif;
-  color: var(--text-dark);
+  background-color: #F7F7FB;
 }
 
-/* Primary Button */
+/* Buttons */
 .stButton>button {
   background-color: var(--accent-blue);
   color: white;
   border-radius: 999px;
-  padding: 0.55rem 1.7rem;
+  padding: 0.45rem 1.5rem;
   border: none;
   font-weight: 600;
 }
@@ -44,132 +36,112 @@ body {
   background-color: #1E48A8;
 }
 
-/* Dashboard metric cards - strong yellow contrast */
-div[data-testid="metric-container"] {
-  background: white;
-  padding: 1.1rem;
-  border-radius: 16px;
-  border: 2px solid var(--primary-yellow);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+/* Section title underline */
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0 0 0.4rem 0;
+}
+.section-title span {
+  border-bottom: 4px solid var(--primary-amber);
+  padding-bottom: 4px;
 }
 
-/* Section containers */
-.section-highlight {
-  background: white;
-  border: 2px solid var(--primary-yellow);
-  border-left: 10px solid var(--primary-yellow);
-  padding: 1.3rem;
-  border-radius: 18px;
-  margin-bottom: 1.5rem;
-}
-
-/* Headings (NO yellow text) */
-h1, h2, h3 {
-  color: var(--text-dark);
-}
-
-/* Divider style */
-hr {
-  border: none;
-  height: 4px;
-  background: var(--primary-yellow);
-  border-radius: 999px;
-  margin: 2rem 0;
-}
-
-/* Info box with amber contrast */
-.stAlert {
-  background: #fff8ed;
-  border-left: 8px solid var(--primary-amber);
-}
-
-/* Dataframe contrast */
-div[data-testid="stDataFrame"] {
+/* Cards */
+.card {
   background: white;
   border-radius: 14px;
-  border: 2px solid var(--primary-yellow);
+  padding: 18px 20px;
+  box-shadow: 0px 4px 12px rgba(0,0,0,0.06);
+  margin-bottom: 1.0rem;
 }
-/* Detail cards under Page deep-dive */
-.detail-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  margin: 0.75rem 0 1.25rem 0;
+.card-border-amber {
+  border-left: 6px solid var(--primary-amber);
 }
-
-.detail-card {
-  background: white;
-  border-radius: 16px;
-  border: 1px solid #e5e7eb;
-  padding: 0.9rem 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-  flex: 1;
-  min-width: 210px;
+.soft-card {
+  background: #FFF8E5;
+  border-radius: 14px;
+  padding: 16px 18px;
+  margin-bottom: 1.0rem;
 }
 
-.detail-card-ux {
-  border-left: 8px solid var(--primary-yellow);
+/* Small pill labels if you want later */
+.pill {
+  display: inline-block;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(37,99,235,0.08);
+  font-size: 0.75rem;
 }
 
-.detail-label {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #6b7280;
-  margin-bottom: 0.1rem;
-}
-
-.detail-value {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-.detail-subtext {
-  font-size: 0.9rem;
-  color: #4b5563;
-  margin-top: 0.35rem;
+/* Reduce padding around dataframe */
+.block-container {
+  padding-top: 1.6rem;
 }
 </style>
-
-
 """, unsafe_allow_html=True)
 
-# ---------- TITLE & INTRO ----------
-st.title("✏️ Web Clarity & Empathy Analyzer")
+# ---------- TITLE / HERO ----------
+col_title, col_side = st.columns([2.5, 1])
 
-st.write(
-    "This is the first UI version of my Madison-based tool. "
-    "Paste one or more URLs and the app will generate a demo report focusing on "
-    "clarity, empathy, accessibility, and a few healthcare-inspired UX checks."
-)
+with col_title:
+    st.markdown(
+        '<div class="section-title"><span>✏️ Web Clarity & Empathy Analyzer</span></div>',
+        unsafe_allow_html=True,
+    )
+    st.write(
+        "First Madison-based UI that checks how **clear, empathetic and accessible** a web page feels. "
+        "Paste URLs and get a quick UX snapshot inspired by healthcare communication."
+    )
 
+with col_side:
+    st.markdown(
+        """
+        <div class="soft-card">
+        <b>Quick steps</b><br><br>
+        1. Paste one or more URLs<br>
+        2. Click <b>Run analysis</b><br>
+        3. Review the dashboard + deep-dive cards<br>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+st.markdown("")
+
+# ---------- INPUT + TOOL INFO ----------
 left, right = st.columns([2, 1])
 
 with left:
-    urls_text = st.text_area(
-        "Paste URLs (one per line)",
-        placeholder="https://example.com/page-1\nhttps://example.com/page-2",
-        height=140,
-    )
-    run_button = st.button("Run analysis")
+    st.markdown('<div class="section-title"><span>Input</span></div>', unsafe_allow_html=True)
+    with st.container():
+        urls_text = st.text_area(
+            "",
+            placeholder="https://example.com/page-1\nhttps://example.com/page-2",
+            height=150,
+        )
+        run_button = st.button("Run analysis")
 
 with right:
-    st.markdown("#### What this tool focuses on")
+    st.markdown('<div class="section-title"><span>What this tool checks</span></div>', unsafe_allow_html=True)
     st.markdown(
-        "- 🧠 **Clarity** – is the content easy to understand?\n"
-        "- 💬 **Empathy** – does the tone feel supportive, not harsh?\n"
-        "- ♿ **Accessibility** – basic WCAG-inspired checks (demo).\n"
-        "- 🩺 **Healthcare-inspired UX** (non-clinical):\n"
-        "  - Low-literacy friendliness\n"
-        "  - Emotionally safe tone (no scary language)\n"
-        "  - Clear information hierarchy\n"
-        "  - Visual stress (dense blocks of text)\n"
+        """
+        <div class="card">
+        • 🧠 <b>Clarity</b> – is the content easy to understand?<br>
+        • 💬 <b>Empathy</b> – does the tone feel supportive, not harsh?<br>
+        • ♿ <b>Accessibility</b> – simple WCAG-inspired checks (demo).<br>
+        • 🩺 <b>Healthcare-inspired UX</b> (non-clinical):<br>
+        &nbsp;&nbsp;&nbsp;– Low-literacy friendliness<br>
+        &nbsp;&nbsp;&nbsp;– Emotionally safe tone (no scary language)<br>
+        &nbsp;&nbsp;&nbsp;– Clear information hierarchy<br>
+        &nbsp;&nbsp;&nbsp;– Visual stress from dense blocks of text
+        </div>
+        """,
+        unsafe_allow_html=True,
     )
     st.info(
-        "In a real deployment, this UI would call my Madison/n8n workflow and "
-        "append results to a Google Sheet. For this assignment version, the "
-        "analysis is mocked so you can see the interface and UX."
+        "For this assignment, the analysis is mocked so you can explore the interface. "
+        "In a real deployment, this would call my Madison/n8n workflow and log results to a Google Sheet."
     )
 
 # ---------- DUMMY ANALYSIS (REPLACE WITH REAL API LATER) ----------
@@ -216,9 +188,9 @@ def analyze_url_dummy(url: str) -> dict:
 
 # ---------- MAIN ACTION ----------
 results = []
+df = None
 
 if run_button:
-    # Collect URLs from textarea
     urls = []
     if urls_text.strip():
         urls = [u.strip() for u in urls_text.splitlines() if u.strip()]
@@ -226,13 +198,13 @@ if run_button:
     if not urls:
         st.warning("Please paste at least one URL.")
     else:
-        st.info(f"Running demo analysis for {len(urls)} URL(s)…")
+        st.success(f"Running demo analysis for {len(urls)} URL(s)…")
 
         for url in urls:
             data = analyze_url_dummy(url)
             results.append(data)
 
-        # -------- Summary table --------
+        # Build summary df
         df_rows = []
         for item in results:
             df_rows.append({
@@ -244,35 +216,43 @@ if run_button:
             })
         df = pd.DataFrame(df_rows)
 
-        st.markdown("### Summary of results")
+# ---------- RESULTS UI (ONLY IF WE HAVE RESULTS) ----------
+if results and df is not None:
+
+    st.markdown("---")
+    st.markdown('<div class="section-title"><span>📊 Analysis snapshot</span></div>', unsafe_allow_html=True)
+
+    # High-level metrics
+    total_urls = len(df)
+    score_map = {"Low": 1, "Medium": 2, "High": 3}
+
+    high_clarity = (df["Clarity"] == "High").sum()
+    good_empathy = df["Empathy"].isin(["Medium", "High"]).sum()
+    wcag_pass = df["WCAG"].str.contains("Pass").sum()
+
+    m1, m2, m3, m4 = st.columns(4)
+    m1.metric("URLs analyzed", total_urls)
+    m2.metric("High clarity pages", f"{high_clarity}/{total_urls}")
+    m3.metric("Supportive tone (Med/High)", f"{good_empathy}/{total_urls}")
+    m4.metric("WCAG pass (demo)", f"{wcag_pass}/{total_urls}")
+
+    # Summary table in a card
+    with st.expander("View summary table"):
         st.dataframe(df, use_container_width=True)
 
-        # ---------- DASHBOARD VIEW ----------
-        st.markdown("## 📊 Analysis Dashboard")
-        total_urls = len(df)
-        high_clarity = (df["Clarity"] == "High").sum()
-        good_empathy = df["Empathy"].isin(["Medium", "High"]).sum()
-        wcag_pass = df["WCAG"].str.contains("Pass").sum()
+    # Clarity vs Empathy chart
+    st.markdown('<div class="section-title"><span>🧠 Clarity vs Empathy</span></div>', unsafe_allow_html=True)
 
-        c1, c2, c3, c4 = st.columns(4)
-        c1.metric("URLs analyzed", total_urls)
-        c2.metric("High clarity", f"{high_clarity}/{total_urls}")
-        c3.metric("Supportive tone", f"{good_empathy}/{total_urls}")
-        c4.metric("WCAG Pass", f"{wcag_pass}/{total_urls}")
+    chart_df = df.copy()
+    chart_df["Clarity score"] = chart_df["Clarity"].map(score_map)
+    chart_df["Empathy score"] = chart_df["Empathy"].map(score_map)
+    chart_df = chart_df.set_index("URL")[["Clarity score", "Empathy score"]]
 
-        st.markdown("---")
-        st.markdown("### 🧠 Clarity & Empathy comparison")
+    st.bar_chart(chart_df)
 
-        score_map = {"Low": 1, "Medium": 2, "High": 3}
-        chart_df = df.copy()
-        chart_df["Clarity score"] = chart_df["Clarity"].map(score_map)
-        chart_df["Empathy score"] = chart_df["Empathy"].map(score_map)
-        chart_df = chart_df.set_index("URL")[["Clarity score", "Empathy score"]]
-
-        st.bar_chart(chart_df)
-if results:
-
-    st.markdown("## 🔍 Page Deep-Dive")
+    # ---------- PAGE DEEP-DIVE ----------
+    st.markdown("---")
+    st.markdown('<div class="section-title"><span>🔍 Page deep-dive</span></div>', unsafe_allow_html=True)
 
     selected_url = st.selectbox(
         "Select a URL to view detailed insights:",
@@ -281,37 +261,18 @@ if results:
 
     selected_item = next(item for item in results if item["url"] == selected_url)
 
-    # ---- CARD STYLES ----
-    st.markdown("""
-    <style>
-    .card {
-        background: white;
-        border-radius: 14px;
-        padding: 20px;
-        box-shadow: 0px 4px 12px rgba(0,0,0,0.06);
-        border-left: 6px solid var(--primary-amber);
-        margin-bottom: 1rem;
-    }
-    .soft-card {
-        background: #FFF8E5;
-        border-radius: 14px;
-        padding: 18px;
-        margin-bottom: 1rem;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+    colA, colB = st.columns(2)
 
-    col1, col2 = st.columns(2)
-
-    with col1:
+    with colA:
         st.markdown(
             f"""
-            <div class="card">
-            <h4>Core Metrics</h4>
+            <div class="card card-border-amber">
+            <h4>Core metrics</h4>
+            <b>URL:</b> {selected_item["url"]}<br><br>
             <b>Empathy:</b> {selected_item["empathy_score"]}<br>
             <b>Clarity:</b> {selected_item["clarity_score"]}<br>
-            <b>WCAG:</b> {selected_item["wcag_status"]}<br>
-            <b>Visual Layout:</b> {selected_item["visual_schema"]}
+            <b>WCAG status:</b> {selected_item["wcag_status"]}<br>
+            <b>Visual layout:</b> {selected_item["visual_schema"]}
             </div>
             """,
             unsafe_allow_html=True
@@ -327,22 +288,21 @@ if results:
             unsafe_allow_html=True
         )
 
-    with col2:
+    with colB:
         st.markdown(
             f"""
             <div class="card">
-            <h4>AI Rewrite Suggestion</h4>
+            <h4>AI rewrite suggestion</h4>
             {selected_item["rewrite_suggestion"]}
             </div>
             """,
             unsafe_allow_html=True
         )
 
-    st.markdown("### 🩺 Healthcare-inspired UX Indicators")
-
     st.markdown(
         f"""
         <div class="card">
+        <h4>🩺 Healthcare-inspired UX indicators</h4>
         <b>Low-literacy friendliness:</b> {selected_item["low_literacy_note"]}<br><br>
         <b>Tone safety:</b> {selected_item["tone_safety_note"]}<br><br>
         <b>Information hierarchy:</b> {selected_item["hierarchy_note"]}<br><br>
@@ -352,13 +312,11 @@ if results:
         unsafe_allow_html=True
     )
 
-    st.markdown("### ✅ Actionable Recommendations")
-
+    st.markdown("### ✅ Recommendations")
     for r in selected_item.get("recommendations", []):
         st.markdown(f"- {r}")
 
-
-        
+# ---------- FOOTER ----------
 st.markdown("---")
 st.markdown(
     "Back to my portfolio: [steffimanhalli.com](https://steffimanhalli.com)"
