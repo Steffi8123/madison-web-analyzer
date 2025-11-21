@@ -157,31 +157,69 @@ if run_button:
         st.dataframe(df, use_container_width=True)
 
         # -------- Detailed view per URL --------
-        st.markdown("### Detailed insights by URL")
-        for item in results:
-            url = item.get("url", "Unknown URL")
-            with st.expander(url):
-                st.markdown("#### Core content analysis")
-                st.write("**Empathy score:**", item.get("empathy_score"))
-                st.write("**Clarity score:**", item.get("clarity_score"))
-                st.write("**WCAG status:**", item.get("wcag_status"))
-                st.write("**Visual schema:**", item.get("visual_schema"))
+        # ---------- DASHBOARD VIEW ----------
+st.markdown("## 📊 Analysis Dashboard")
 
-                st.write("**Summary**")
-                st.write(item.get("summary", ""))
+total_urls = len(df)
+high_clarity = (df["Clarity"] == "High").sum()
+good_empathy = df["Empathy"].isin(["Medium", "High"]).sum()
+wcag_pass = df["WCAG"].str.contains("Pass").sum()
 
-                st.write("**AI rewrite suggestion**")
-                st.write(item.get("rewrite_suggestion", ""))
+c1, c2, c3, c4 = st.columns(4)
+c1.metric("URLs analyzed", total_urls)
+c2.metric("High clarity", f"{high_clarity}/{total_urls}")
+c3.metric("Supportive tone", f"{good_empathy}/{total_urls}")
+c4.metric("WCAG Pass", f"{wcag_pass}/{total_urls}")
 
-                st.markdown("#### 🩺 Healthcare-inspired UX checks (non-clinical)")
-                st.write("**Low-literacy friendliness:**", item.get("low_literacy_note"))
-                st.write("**Tone safety:**", item.get("tone_safety_note"))
-                st.write("**Information hierarchy:**", item.get("hierarchy_note"))
-                st.write("**Visual stress:**", item.get("visual_stress_note"))
+st.markdown("---")
+st.markdown("### 🧠 Clarity & Empathy comparison")
 
-                st.write("**Recommendations**")
-                for r in item.get("recommendations", []):
-                    st.markdown(f"- {r}")
+score_map = {"Low": 1, "Medium": 2, "High": 3}
+chart_df = df.copy()
+chart_df["Clarity score"] = chart_df["Clarity"].map(score_map)
+chart_df["Empathy score"] = chart_df["Empathy"].map(score_map)
+chart_df = chart_df.set_index("URL")[["Clarity score", "Empathy score"]]
+
+st.bar_chart(chart_df)
+
+st.markdown("---")
+st.markdown("### 🔍 Page deep-dive")
+
+selected_url = st.selectbox(
+    "Select a URL to view detailed insights:",
+    df["URL"].tolist()
+)
+
+selected_item = next(item for item in results if item["url"] == selected_url)
+
+with st.container():
+    st.markdown(f"#### {selected_url}")
+
+    colA, colB = st.columns(2)
+
+    with colA:
+        st.write("**Empathy score:**", selected_item["empathy_score"])
+        st.write("**Clarity score:**", selected_item["clarity_score"])
+        st.write("**WCAG status:**", selected_item["wcag_status"])
+        st.write("**Visual schema:**", selected_item["visual_schema"])
+
+    with colB:
+        st.write("**Summary**")
+        st.write(selected_item["summary"])
+
+        st.write("**AI rewrite suggestion**")
+        st.write(selected_item["rewrite_suggestion"])
+
+    st.markdown("#### 🩺 Healthcare-inspired UX checks")
+    st.write("**Low-literacy friendliness:**", selected_item["low_literacy_note"])
+    st.write("**Tone safety:**", selected_item["tone_safety_note"])
+    st.write("**Information hierarchy:**", selected_item["hierarchy_note"])
+    st.write("**Visual stress:**", selected_item["visual_stress_note"])
+
+    st.markdown("**Recommendations**")
+    for r in selected_item.get("recommendations", []):
+        st.markdown(f"- {r}")
+
 
 st.markdown("---")
 st.markdown(
