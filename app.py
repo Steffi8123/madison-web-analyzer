@@ -86,7 +86,7 @@ col_title, col_side = st.columns([2.5, 1])
 
 with col_title:
     st.markdown(
-        '<div class="section-title"><span>✏️ Web Clarity & Empathy Analyzer</span></div>',
+        '<div class="section-title"><span>✏️ PENTRUST (Web Clarity & Empathy Analyzer)</span></div>',
         unsafe_allow_html=True,
     )
     st.write(
