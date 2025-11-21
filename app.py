@@ -270,109 +270,92 @@ if run_button:
         chart_df = chart_df.set_index("URL")[["Clarity score", "Empathy score"]]
 
         st.bar_chart(chart_df)
+if results:
 
-   
-st.markdown("## 🔍 Page deep-dive")
+    st.markdown("## 🔍 Page Deep-Dive")
 
-selected_url = st.selectbox(
-    "Select a URL to view detailed insights:",
-    df["URL"].tolist()
-)
+    selected_url = st.selectbox(
+        "Select a URL to view detailed insights:",
+        df["URL"].tolist()
+    )
 
-selected_item = next(item for item in results if item["url"] == selected_url)
+    selected_item = next(item for item in results if item["url"] == selected_url)
 
-st.markdown("""
-<style>
-.card {
-    background: white;
-    padding: 1.2rem;
-    border-radius: 14px;
-    border: 1px solid #eee;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.04);
-    margin-bottom: 1rem;
-}
-.tag {
-    background: #F9D342;
-    padding: 0.2rem 0.6rem;
-    border-radius: 999px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: #1f2937;
-    display: inline-block;
-    margin-bottom: 0.4rem;
-}
-.small-metric {
-    font-size: 0.9rem;
-    color: #374151;
-}
-</style>
-""", unsafe_allow_html=True)
+    # ---- CARD STYLES ----
+    st.markdown("""
+    <style>
+    .card {
+        background: white;
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0px 4px 12px rgba(0,0,0,0.06);
+        border-left: 6px solid var(--primary-amber);
+        margin-bottom: 1rem;
+    }
+    .soft-card {
+        background: #FFF8E5;
+        border-radius: 14px;
+        padding: 18px;
+        margin-bottom: 1rem;
+    }
+    </style>
+    """, unsafe_allow_html=True)
 
-st.markdown(f"### 📄 {selected_url}")
+    col1, col2 = st.columns(2)
 
-col1, col2, col3, col4 = st.columns(4)
+    with col1:
+        st.markdown(
+            f"""
+            <div class="card">
+            <h4>Core Metrics</h4>
+            <b>Empathy:</b> {selected_item["empathy_score"]}<br>
+            <b>Clarity:</b> {selected_item["clarity_score"]}<br>
+            <b>WCAG:</b> {selected_item["wcag_status"]}<br>
+            <b>Visual Layout:</b> {selected_item["visual_schema"]}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-col1.markdown(f"""
-<div class="card">
-<span class="tag">Empathy</span>
-<h3>{selected_item["empathy_score"]}</h3>
-<p class="small-metric">Tone support level</p>
-</div>
-""", unsafe_allow_html=True)
+        st.markdown(
+            f"""
+            <div class="soft-card">
+            <h4>Summary</h4>
+            {selected_item["summary"]}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-col2.markdown(f"""
-<div class="card">
-<span class="tag">Clarity</span>
-<h3>{selected_item["clarity_score"]}</h3>
-<p class="small-metric">Content understandability</p>
-</div>
-""", unsafe_allow_html=True)
+    with col2:
+        st.markdown(
+            f"""
+            <div class="card">
+            <h4>AI Rewrite Suggestion</h4>
+            {selected_item["rewrite_suggestion"]}
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
-col3.markdown(f"""
-<div class="card">
-<span class="tag">WCAG</span>
-<h3>{selected_item["wcag_status"]}</h3>
-<p class="small-metric">Accessibility check</p>
-</div>
-""", unsafe_allow_html=True)
+    st.markdown("### 🩺 Healthcare-inspired UX Indicators")
 
-col4.markdown(f"""
-<div class="card">
-<span class="tag">Layout</span>
-<h3>{selected_item["visual_schema"]}</h3>
-<p class="small-metric">Visual structure</p>
-</div>
-""", unsafe_allow_html=True)
+    st.markdown(
+        f"""
+        <div class="card">
+        <b>Low-literacy friendliness:</b> {selected_item["low_literacy_note"]}<br><br>
+        <b>Tone safety:</b> {selected_item["tone_safety_note"]}<br><br>
+        <b>Information hierarchy:</b> {selected_item["hierarchy_note"]}<br><br>
+        <b>Visual stress:</b> {selected_item["visual_stress_note"]}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
+    st.markdown("### ✅ Actionable Recommendations")
 
-st.markdown("### 🧠 Summary & Rewrite")
-
-st.markdown(f"""
-<div class="card">
-<b>Summary</b><br>
-{selected_item["summary"]}<br><br>
-<b>AI Rewrite Suggestion</b><br>
-{selected_item["rewrite_suggestion"]}
-</div>
-""", unsafe_allow_html=True)
-
-
-st.markdown("### 🩺 Healthcare-informed UX Signals")
-
-st.markdown(f"""
-<div class="card">
-<b>Low literacy note:</b> {selected_item["low_literacy_note"]}<br><br>
-<b>Tone safety:</b> {selected_item["tone_safety_note"]}<br><br>
-<b>Hierarchy clarity:</b> {selected_item["hierarchy_note"]}<br><br>
-<b>Visual stress:</b> {selected_item["visual_stress_note"]}
-</div>
-""", unsafe_allow_html=True)
-
-
-st.markdown("### ✅ Actionable Recommendations")
-
-for r in selected_item["recommendations"]:
-    st.markdown(f"- {r}")
+    for r in selected_item.get("recommendations", []):
+        st.markdown(f"- {r}")
 
 
         
