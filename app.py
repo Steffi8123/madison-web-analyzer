@@ -196,7 +196,7 @@ if run_button:
         st.dataframe(df, use_container_width=True)
 
         # ---------- DASHBOARD VIEW ----------
-st.markdown("## 📊 Analysis Dashboard", unsafe_allow_html=True)
+st.markdown("## 📊 Analysis Dashboard")
 
         total_urls = len(df)
         high_clarity = (df["Clarity"] == "High").sum()
