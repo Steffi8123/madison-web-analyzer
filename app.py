@@ -16,10 +16,7 @@ st.markdown("""
   --primary-amber: #F59E0B;
   --accent-blue:  #2563EB;
 }
-/* FIX: Push content down so it doesn't hide under Streamlit header */
-.main .block-container {
-    padding-top: 2.5rem;
-}
+
 /* Page background + base */
 body, .stApp {
   font-family: "Georgia", "Times New Roman", serif;
@@ -79,7 +76,7 @@ body, .stApp {
 
 /* Reduce padding around dataframe */
 .block-container {
-  padding-top: 1.6rem;
+  padding-top: 2.6rem;
 }
 </style>
 """, unsafe_allow_html=True)
