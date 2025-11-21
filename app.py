@@ -15,21 +15,72 @@ st.markdown("""
   --primary-yellow: #F9D342;
   --primary-amber: #F59E0B;
   --accent-blue:  #2563EB;
+  --soft-bg: #F8FAFC;
 }
+
+/* Background */
+.main {
+  background-color: var(--soft-bg);
+}
+
+/* Typography */
 body {
   font-family: "Georgia", "Times New Roman", serif;
 }
+
+/* Button styling */
 .stButton>button {
   background-color: var(--accent-blue);
   color: white;
   border-radius: 999px;
-  padding: 0.4rem 1.4rem;
+  padding: 0.5rem 1.6rem;
   border: none;
+  font-weight: 600;
 }
 .stButton>button:hover {
   background-color: #1E48A8;
 }
+
+/* Metric card styling */
+div[data-testid="metric-container"] {
+  background: white;
+  padding: 1rem;
+  border-radius: 14px;
+  border-left: 6px solid var(--primary-yellow);
+  box-shadow: 0px 4px 14px rgba(0,0,0,0.04);
+}
+
+/* Dashboard headers */
+h2, h3 {
+  color: #1f2937;
+  border-bottom: 2px solid var(--primary-amber);
+  padding-bottom: 6px;
+}
+
+/* Info box */
+.stAlert {
+  background: #fff7ed;
+  border-left: 6px solid var(--primary-amber);
+}
+
+/* Focus section highlight */
+.section-highlight {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-left: 6px solid var(--primary-yellow);
+  padding: 1.2rem;
+  border-radius: 16px;
+  margin-bottom: 1rem;
+}
+
+/* Dataframe polish */
+div[data-testid="stDataFrame"] {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
 </style>
+
 """, unsafe_allow_html=True)
 
 # ---------- TITLE & INTRO ----------
