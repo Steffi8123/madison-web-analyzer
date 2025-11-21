@@ -3,7 +3,7 @@ import pandas as pd
 
 # ---------- PAGE CONFIG ----------
 st.set_page_config(
-    page_title="Web Clarity & Empathy Analyzer",
+    page_title="PENTRUST (Web Clarity & Empathy Analyzer)",
     page_icon="✏️",
     layout="wide",
 )
