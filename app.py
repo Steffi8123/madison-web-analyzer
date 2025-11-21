@@ -17,6 +17,7 @@ st.markdown("""
   --accent-blue:  #2563EB;
   --soft-bg: #F8FAFC;
   --text-dark: #1f2937;
+  
 }
 
 /* Background */
@@ -87,6 +88,47 @@ div[data-testid="stDataFrame"] {
   background: white;
   border-radius: 14px;
   border: 2px solid var(--primary-yellow);
+}
+/* Detail cards under Page deep-dive */
+.detail-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 0.75rem 0 1.25rem 0;
+}
+
+.detail-card {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  padding: 0.9rem 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  flex: 1;
+  min-width: 210px;
+}
+
+.detail-card-ux {
+  border-left: 8px solid var(--primary-yellow);
+}
+
+.detail-label {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6b7280;
+  margin-bottom: 0.1rem;
+}
+
+.detail-value {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.detail-subtext {
+  font-size: 0.9rem;
+  color: #4b5563;
+  margin-top: 0.35rem;
 }
 </style>
 
