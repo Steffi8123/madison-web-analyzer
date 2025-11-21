@@ -271,7 +271,7 @@ if run_button:
 
         st.bar_chart(chart_df)
 
-        st.markdown("---")
+      st.markdown("---")
 st.markdown("### 🔍 Page deep-dive")
 
 selected_url = st.selectbox(
@@ -281,33 +281,63 @@ selected_url = st.selectbox(
 
 selected_item = next(item for item in results if item["url"] == selected_url)
 
-with st.container():
-    st.markdown(f"#### {selected_url}")
+# URL header
+st.markdown(f"**Page selected:** {selected_url}")
 
-    colA, colB = st.columns(2)
+# --- Top row: core scores as cards ---
+st.markdown(
+    f"""
+    <div class="detail-row">
+      <div class="detail-card">
+        <div class="detail-label">Empathy</div>
+        <div class="detail-value">{selected_item['empathy_score']}</div>
+        <div class="detail-subtext">How supportive and human the tone feels.</div>
+      </div>
+      <div class="detail-card">
+        <div class="detail-label">Clarity</div>
+        <div class="detail-value">{selected_item['clarity_score']}</div>
+        <div class="detail-subtext">How easy it is to understand key messages.</div>
+      </div>
+      <div class="detail-card">
+        <div class="detail-label">Accessibility (demo)</div>
+        <div class="detail-value">{selected_item['wcag_status']}</div>
+        <div class="detail-subtext">Basic WCAG-inspired readability & contrast notes.</div>
+      </div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
-    with colA:
-        st.write("**Empathy score:**", selected_item["empathy_score"])
-        st.write("**Clarity score:**", selected_item["clarity_score"])
-        st.write("**WCAG status:**", selected_item["wcag_status"])
-        st.write("**Visual schema:**", selected_item["visual_schema"])
+# --- Second row: summary & rewrite side by side ---
+colA, colB = st.columns(2)
 
-    with colB:
-        st.write("**Summary**")
-        st.write(selected_item["summary"])
+with colA:
+    st.markdown("#### Summary")
+    st.write(selected_item["summary"])
 
-        st.write("**AI rewrite suggestion**")
-        st.write(selected_item["rewrite_suggestion"])
+with colB:
+    st.markdown("#### AI rewrite suggestion")
+    st.write(selected_item["rewrite_suggestion"])
 
-    st.markdown("#### 🩺 Healthcare-inspired UX checks")
-    st.write("**Low-literacy friendliness:**", selected_item["low_literacy_note"])
-    st.write("**Tone safety:**", selected_item["tone_safety_note"])
-    st.write("**Information hierarchy:**", selected_item["hierarchy_note"])
-    st.write("**Visual stress:**", selected_item["visual_stress_note"])
+# --- Healthcare-inspired UX checks in a single card ---
+st.markdown(
+    """
+    <div class="detail-card detail-card-ux">
+      <div class="detail-label">Healthcare-inspired UX checks (non-clinical)</div>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
 
-    st.markdown("**Recommendations**")
-    for r in selected_item.get("recommendations", []):
-        st.markdown(f"- {r}")
+st.write("**Low-literacy friendliness:**", selected_item["low_literacy_note"])
+st.write("**Tone safety:**", selected_item["tone_safety_note"])
+st.write("**Information hierarchy:**", selected_item["hierarchy_note"])
+st.write("**Visual stress:**", selected_item["visual_stress_note"])
+
+st.markdown("**Recommendations**")
+for r in selected_item.get("recommendations", []):
+    st.markdown(f"- {r}")
+
         
 st.markdown("---")
 st.markdown(
